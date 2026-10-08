@@ -1,31 +1,34 @@
 const vendors = [
   {
     id: "my-restaurant",
-    name: "Your Restaurant Name",
-    location: "Mahallah ..., Block ...",
+    name: "ShaqNomNom",
+    location: "Mahallah Ali, Canteen",
     openHours: "7:00 am - 10:00 pm",
     isOpen: true,
     menu: [
       {
-        id: "my-1",
-        name: "Dish 1",
-        description: "...",
-        price: 7.5,
-        category: "Rice",
+        id: "1. ",
+        name: "Butter Chicken Masala",
+        description:
+          "Gourmet, creamy, rich and a drop of sweetness. Paired well with our Garlic-Butter Naan",
+        price: 15,
+        category: "Curries",
         available: true,
       },
       {
-        id: "my-2",
-        name: "Dish 2",
-        description: "...",
+        id: "2. ",
+        name: "Garlic-Butter Naan",
+        description:
+          "Aroma of fresh garlic, just enough butter lathered to infuse into the Naan. Our signature dough is a popular choice.",
         price: 6,
-        category: "Noodles",
+        category: "Breads",
         available: true,
       },
       {
-        id: "my-3",
-        name: "Drink 1",
-        description: "...",
+        id: "3. ",
+        name: "NanaariZah",
+        description:
+          "A south-indian 1st choice lemonade (Nanaari) combined with North-indian extract (Roohafzah), to give a refreshing blast.",
         price: 2.5,
         category: "Drinks",
         available: false,

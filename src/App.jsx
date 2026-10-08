@@ -12,10 +12,10 @@ function App() {
     setCart((prevCart) => [...prevCart, item]); // a NEW array, never cart.push()
   }
   // in the JSX:
-  <Header cartCount={cart.length} />;
 
   return (
     <>
+      <Header cartCount={cart.length} />
       <Header />
       <main className="container">
         <section>

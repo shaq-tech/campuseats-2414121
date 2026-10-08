@@ -11,4 +11,4 @@ function MenuList({ items, onAdd }) {
     </div>
   );
 }
-export default MenuLis;
+export default MenuList;
