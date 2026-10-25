@@ -10,4 +10,4 @@ A cafeteria pre-order app built with React and Vite for BICS 3301 (Cross-Platfor
 ## Credits
 
 - Vendor 2 from 2411147.
-- Vendor 3 from 2417377. (still waiting for his Json file)
+- Vendor 3 from 2417377.
