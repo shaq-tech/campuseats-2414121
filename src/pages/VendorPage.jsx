@@ -1,18 +1,33 @@
 import { Link, useParams, useSearchParams } from "react-router";
 import { useVendors } from "../hooks/useVendors.js";
+import { useAuth } from "../hooks/useAuth.js";
+import { useLocalStorage } from "../hooks/useLocalStorage.js";
 import MenuList from "../components/MenuList.jsx";
 import CategoryFilter from "../components/CategoryFilter.jsx";
 import { Loading, ErrorMessage } from "../components/Status.jsx";
 
-function VendorPage() {
-  const { id } = useParams();
+// The menu and the category filter. It is its own component so VendorPage can
+// remount it (key=...) when the user changes. That makes useLocalStorage read
+// the new user's saved category instead of keeping the old one.
+function VendorMenu({ vendor }) {
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { vendors, loading, error, reload } = useVendors();
+  const [savedCategory, setSavedCategory] = useLocalStorage(
+    "ce-category-" + (user ? user.uid : "guest"),
+    "All",
+  );
 
-  // the category lives in the URL: /vendor/:id?cat=Rice
-  const selectedCategory = searchParams.get("cat") ?? "All";
+  const categories = [
+    "All",
+    ...new Set(vendor.menu.map((item) => item.category)),
+  ];
+
+  // The URL wins (a shared link), then the user's saved choice, then All.
+  let selectedCategory = searchParams.get("cat") ?? savedCategory;
+  if (!categories.includes(selectedCategory)) selectedCategory = "All";
 
   function handleSelectCategory(category) {
+    if (user) setSavedCategory(category); // guests: nothing is saved
     if (category === "All") {
       setSearchParams({});
     } else {
@@ -20,7 +35,30 @@ function VendorPage() {
     }
   }
 
-  if (loading) return <Loading />;
+  const visibleItems =
+    selectedCategory === "All"
+      ? vendor.menu
+      : vendor.menu.filter((item) => item.category === selectedCategory);
+
+  return (
+    <>
+      <CategoryFilter
+        categories={categories}
+        active={selectedCategory}
+        onSelect={handleSelectCategory}
+      />
+      <MenuList items={visibleItems} />
+    </>
+  );
+}
+
+function VendorPage() {
+  const { id } = useParams();
+  const { vendors, loading, error, reload } = useVendors();
+  const { user, loading: authLoading } = useAuth();
+
+  // Wait for Firebase too, or we could read the guest's value by mistake.
+  if (loading || authLoading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={reload} />;
 
   const vendor = vendors.find((v) => v.id === id);
@@ -36,15 +74,6 @@ function VendorPage() {
     );
   }
 
-  const categories = [
-    "All",
-    ...new Set(vendor.menu.map((item) => item.category)),
-  ];
-  const visibleItems =
-    selectedCategory === "All"
-      ? vendor.menu
-      : vendor.menu.filter((item) => item.category === selectedCategory);
-
   return (
     <section>
       <p>
@@ -54,12 +83,7 @@ function VendorPage() {
       <p className="muted">
         {vendor.location} · {vendor.openHours}
       </p>
-      <CategoryFilter
-        categories={categories}
-        active={selectedCategory}
-        onSelect={handleSelectCategory}
-      />
-      <MenuList items={visibleItems} />
+      <VendorMenu key={user ? user.uid : "guest"} vendor={vendor} />
     </section>
   );
 }
