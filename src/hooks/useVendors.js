@@ -8,8 +8,6 @@ export function useVendors() {
 
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
-    setError(null);
     fetch("/api/vendors.json", { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -25,7 +23,11 @@ export function useVendors() {
     return () => controller.abort();
   }, [reloadKey]);
 
-  const reload = () => setReloadKey((k) => k + 1);
+  function reload() {
+    setLoading(true);
+    setError(null);
+    setReloadKey((k) => k + 1);
+  }
 
   return { vendors, loading, error, reload };
 }

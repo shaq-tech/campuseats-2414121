@@ -30,3 +30,10 @@ Add a new section every week, before you tag. Did not use AI? Write "None" under
 - What I asked for: walked through the Week 4 lab step by step: useLocalStorage and useVendors hooks, cart context and useCart, the pages and routes, and my feature (category filter in the URL with ?cat=).
 - What I kept, changed or rejected, and why: kept the code from the walkthrough and read through it. Kept my own CategoryFilter component and moved the filter logic into VendorPage.
 - One thing the AI got wrong and how I fixed it: its commit steps split VendorPage.jsx into its own commit, which would leave the first commit importing a file that isn't in it. Fix: put everything in one commit, or check that each commit runs.
+
+## Week 5
+
+- Tool(s): Claude
+- What I asked for: help going through the Week 5 lab step by step: connecting Firebase, the auth context, login and register pages, protected routes, and my feature (remember the category per user).
+- What I kept, changed or rejected, and why: kept the labsheet code and read it. For my feature I kept the key ce-category-<uid> as the labsheet says. Skipped the Part A code-along because of time.
+- One thing the AI got wrong and how I fixed it: it jumped ahead to the next step while I was still on the one before, and it got confusing. I told it where I really was and it went back.
